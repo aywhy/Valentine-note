@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Message of Grace | Temitayo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #5a152d;
+      --gold: #d4af37;
+      --text-dark: #2c3e50;
+      --glass: rgba(255, 255, 255, 0.9);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Montserrat', sans-serif; background: #fff5f7; overflow: hidden; color: var(--text-dark); }
+
+    /* Unlock Screen */
+    #unlock-screen {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(135deg, #7d1d3f, #d4af37);
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      z-index: 100; color: white; text-align: center; padding: 20px;
+    }
+
+    .unlock-box { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 20px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); }
+    input { padding: 12px; border-radius: 25px; border: none; margin: 15px 0; width: 260px; text-align: center; font-size: 1rem; outline: none; }
+    .unlock-btn { padding: 12px 35px; background: #fff; color: var(--primary); border: none; border-radius: 25px; font-weight: 700; cursor: pointer; transition: 0.3s; }
+    .unlock-btn:hover { transform: scale(1.05); background: var(--gold); color: white; }
+
+    /* Main Slider */
+    .slider-container {
+      display: none; 
+      width: 100vw; height: 100vh;
+      scroll-snap-type: x mandatory; overflow-x: scroll; overflow-y: hidden;
+      display: flex; scroll-behavior: smooth;
+    }
+
+    .card {
+      min-width: 100vw; height: 100vh;
+      scroll-snap-align: start;
+      display: flex; justify-content: center; align-items: center;
+      position: relative; padding: 20px;
+    }
+
+    /* UPDATED RESPONSIVE STACKING LOGIC */
+    .page-1-content {
+      display: flex;
+      flex-direction: column; 
+      width: 95%;
+      max-width: 900px;
+      height: 85vh;
+      background: var(--glass);
+      border-radius: 25px;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+      z-index: 5;
+    }
+
+    @media (min-width: 768px) { 
+      .page-1-content { flex-direction: row; } 
+    }
+    
+    .hero-photo { 
+      flex: 1; 
+      background: url('1001140243.png') center/cover no-repeat; 
+      min-height: 40vh; 
+    }
+    
+    .intro-text { 
+      flex: 1; 
+      padding: 30px; 
+      display: flex; 
+      flex-direction: column; 
+      justify-content: center; 
+      text-align: center;
+    }
+
+    /* Faded Background Style for Pages 2-6 */
+    .faded-bg {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: url('1001140243.png') center/cover no-repeat;
+      opacity: 0.12; filter: sepia(20%);
+    }
+
+    .content-overlay {
+      position: relative; z-index: 5;
+      width: 90%; max-width: 600px;
+      background: rgba(255,255,255,0.8);
+      padding: 40px; border-radius: 20px; text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      border-bottom: 4px solid var(--gold);
+    }
+
+    h1 { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 15px; color: var(--primary); }
+    h2 { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--gold); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+    p { line-height: 1.6; font-size: 1.05rem; margin-bottom: 15px; }
+
+    /* Navigation & Progress */
+    .page-num { position: absolute; bottom: 30px; font-weight: 600; color: var(--primary); opacity: 0.6; }
+    .swipe-hint { position: absolute; bottom: 60px; font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; animation: bounce 2s infinite; }
+    @keyframes bounce { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(10px); } }
+
+    /* Bubbles */
+   .heart { 
+  position: fixed; /* Changed from absolute to fixed */
+  color: #ffb6c1; 
+  opacity: 0.5; 
+  animation: floatUp linear forwards; 
+  pointer-events: none; 
+  z-index: 999; /* This keeps them above the cards and the text */
+}
+
+@keyframes floatUp { 
+  from { transform: translateY(110vh); } 
+  to { transform: translateY(-10vh); } 
+}
+  </style>
+</head>
+<body>
+
+  <audio id="bgMusic" loop><source src="music.mp3" type="audio/mpeg"></audio>
+
+  <div id="unlock-screen">
+    <div class="unlock-box">
+      <h1 style="color:white; margin-bottom:5px;">A Message From Your Valentine Partner</h1>
+      <p style="font-size: 0.9rem; opacity: 0.9; color:white;">Enter your name to begin</p>
+      <input type="text" id="nameInput" placeholder="First Name or Full Name">
+      <br>
+      <button class="unlock-btn" onclick="unlock()">Unlock the Grace</button>
+    </div>
+  </div>
+
+  <div class="slider-container" id="slider" style="display:none">
+    
+    <section class="card">
+      <div class="page-1-content">
+        <div class="hero-photo"></div>
+        <div class="intro-text">
+          <h2>Happy Valentine’s Day</h2>
+          <h1>To a Woman of Grace</h1>
+          <p><strong>Ojelade Temitayo</strong></p>
+          <p>A little note of appreciation and warmth to a truly exceptional lady.</p>
+          <div class="swipe-hint">Swipe left →</div>
+        </div>
+      </div>
+      <div class="page-num">1 / 6</div>
+    </section>
+
+    <section class="card">
+      <div class="faded-bg"></div>
+      <div class="content-overlay">
+        <h2>A Gentle Note</h2>
+        <p>Valentine’s Day is often about grand gestures, but sometimes it’s simply about appreciating the good people around us.</p>
+        <p>Today, I just want to take a moment to appreciate you.</p>
+      </div>
+      <div class="page-num">2 / 6</div>
+    </section>
+
+    <section class="card">
+      <div class="faded-bg"></div>
+      <div class="content-overlay">
+        <h2>Thoughtful Appreciation</h2>
+        <p>In the way you carry yourself, in how you handle responsibility, and in how you relate with people, there’s a quiet strength that stands out.</p>
+        <p>You lead with calmness. You work with excellence. And you create space for others to grow.</p>
+      </div>
+      <div class="page-num">3 / 6</div>
+    </section>
+
+    <section class="card">
+      <div class="faded-bg"></div>
+      <div class="content-overlay">
+        <h2>Heartfelt Recognition</h2>
+        <p>It’s not common to find someone who can be firm yet kind, reserved yet approachable, structured yet cheerful.</p>
+        <p>You make serving feel organized, peaceful, purposeful and that’s something worth appreciating.</p>
+      </div>
+      <div class="page-num">4 / 6</div>
+    </section>
+
+    <section class="card">
+      <div class="faded-bg"></div>
+      <div class="content-overlay">
+        <h2>Encouragement</h2>
+        <p>Never underestimate the impact of the way you show up. The consistency. The dignity. The quiet leadership. They speak louder than words.</p>
+        <p>On a day that celebrates love, I hope you feel valued; not just for what you do, but for the steady, admirable person you are.</p>
+      </div>
+      <div class="page-num">5 / 6</div>
+    </section>
+
+    <section class="card">
+      <div class="faded-bg"></div>
+      <div class="content-overlay">
+        <h2>Sincere Prayers</h2>
+        <p>May God continue to strengthen you, increase you in wisdom, and reward your faithfulness. May His love surround you, guide you, and refresh you in every season.</p>
+        <p>Keep shining, it truly makes a difference.</p>
+        <p style="margin-top:20px; font-weight:700; color:var(--primary)">— Oladunjoye Caleb</p>
+      </div>
+      <div class="page-num">6 / 6</div>
+    </section>
+
+  </div>
+
+  <script>
+    function unlock() {
+      const nameInput = document.getElementById('nameInput').value.toLowerCase().trim();
+      const audio = document.getElementById('bgMusic');
+      const validNames = ["temitayo", "ojelade", "ojelade temitayo", "temitayo ojelade"];
+      
+      if(validNames.some(n => nameInput.includes(n))) {
+        document.getElementById('unlock-screen').style.display = 'none';
+        document.getElementById('slider').style.display = 'flex';
+        
+        // MOBILE AUDIO FIX
+        audio.play().catch(error => {
+          console.log("Audio play failed, likely browser restriction:", error);
+        });
+      } else {
+        alert("Please enter the correct name to unlock your message!");
+      }
+    }
+
+    setInterval(() => {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerHTML = "❤️"; // You can also use 🫧 for bubbles!
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.fontSize = (Math.random() * 15 + 12) + "px";
+  heart.style.animationDuration = (Math.random() * 3 + 5) + "s";
+  
+  document.body.appendChild(heart); // Attaches to the main screen
+
+  setTimeout(() => {
+    heart.remove();
+  }, 7000);
+}, 400); // Created every 0.4 seconds for a steady flow
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    setInterval(() => {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerHTML = "❤️";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = (Math.random() * 15 + 10) + "px";
+      heart.style.animationDuration = (Math.random() * 3 + 5) + "s";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 7000);
+    }, 400);
+  </script>
+</body>
+</html>
